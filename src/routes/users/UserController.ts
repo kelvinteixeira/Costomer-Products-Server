@@ -1,10 +1,11 @@
 import { prisma } from '../../lib/prisma'
 import { z } from 'zod'
+import { FastifyRequest } from 'fastify'
 
 
 export default {
 
-  async create(request: any, response: any) {
+  async create(request: FastifyRequest, response: FastifyRequest) {
     const createUser = z.object({
       name: z.string(),
       email: z.string(),
@@ -23,9 +24,10 @@ export default {
       response.log.error(error)
       process.exit(1)
     }
+
   },
 
-  async list(_request: any, response: any) {
+  async list(_request: FastifyRequest, response: FastifyRequest) {
     try {
       const users = await prisma.user.findMany()
       return users
@@ -36,7 +38,7 @@ export default {
 
   },
 
-  async update(request: any, response: any) {
+  async update(request: FastifyRequest, response: FastifyRequest) {
     const userParams = z.object({
       id: z.string().uuid(),
     })
@@ -66,7 +68,7 @@ export default {
     }
   },
 
-  async delete(request: any, response: any) {
+  async delete(request: FastifyRequest, response: FastifyRequest) {
     const userParams = z.object({
       id: z.string().uuid(),
     })
